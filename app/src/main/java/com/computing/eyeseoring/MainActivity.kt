@@ -23,13 +23,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener2 {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
-
-        binding.webView.apply {
-            webChromeClient = WebChromeClient()
-            webViewClient = WebViewClient()
-            loadUrl(WEB_CLIENT_URL)
-            settings.javaScriptEnabled = true
-        }
         sensorManger = getSystemService(SENSOR_SERVICE) as? SensorManager
     }
 
