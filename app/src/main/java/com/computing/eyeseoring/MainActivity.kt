@@ -12,9 +12,6 @@ import android.webkit.WebViewClient
 import com.computing.eyeseoring.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), SensorEventListener2 {
-    companion object {
-        val WEB_CLIENT_URL = "http://10.0.2.2:63343/tensorflow_sample/index.html"
-    }
 
     private var sensorManger: SensorManager? = null
     private lateinit var binding: ActivityMainBinding
@@ -47,13 +44,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener2 {
     override fun onSensorChanged(event: SensorEvent?) {
         event?.let {
             if (event.sensor.type == Sensor.TYPE_LIGHT) {
-                val brightness = event.values[0]
-
-                when {
-                    brightness < 150 -> {
-                        binding.mainText.text = "暗いよ"
+                with(binding) {
+                    val brightness = event.values[0]
+                    brightnessValueText.text = "照度 :" + brightness.toString()
+                    confirmationText.text = when {
+                        brightness < 150 -> "暗いよ？"
+                        else -> "良い感じ"
                     }
                 }
+
             }
         }
     }
