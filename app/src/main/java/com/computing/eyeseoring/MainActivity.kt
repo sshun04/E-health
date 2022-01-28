@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener2 {
                         val leftEyeOpenProb = face.leftEyeOpenProbability
 
                         binding.eyeOpenProbText.text =
-                            "left : $leftEyeOpenProb , right: $rightEyeOpenProb"
+                            "左目 : $leftEyeOpenProb , 右目: $rightEyeOpenProb"
                     }
                 }
             }
@@ -206,7 +206,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener2 {
             if (event.sensor.type == Sensor.TYPE_LIGHT) {
                 with(binding) {
                     val brightness = event.values[0]
-                    brightnessValueText.text = "照度 :" + brightness.toString()
+                    brightnessValueText.text = "周囲の明るさ :" + brightness.toString()
                     confirmationText.text = when {
                         brightness < 150 -> "暗いよ？"
                         else -> "良い感じ"
