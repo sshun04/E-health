@@ -38,7 +38,7 @@ object BitmapUtils {
     private const val TAG = "BitmapUtils"
 
     /** Converts NV21 format byte buffer to bitmap.  */
-    fun getBitmap(data: ByteBuffer, metadata: FrameMetadata): Bitmap? {
+    fun getBitmap(data: ByteBuffer, metadata: FrameMetadata, flipX: Boolean): Bitmap? {
         data.rewind()
         val imageInBuffer = ByteArray(data.limit())
         data[imageInBuffer, 0, imageInBuffer.size]
@@ -50,7 +50,7 @@ object BitmapUtils {
             image.compressToJpeg(Rect(0, 0, metadata.width, metadata.height), 80, stream)
             val bmp = BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size())
             stream.close()
-            return rotateBitmap(bmp, metadata.rotation, false, false)
+            return rotateBitmap(bmp, metadata.rotation, flipX, false)
         } catch (e: Exception) {
             Log.e("VisionProcessorBase", "Error: " + e.message)
         }
@@ -60,7 +60,7 @@ object BitmapUtils {
     /** Converts a YUV_420_888 image from CameraX API to a bitmap.  */
     @RequiresApi(VERSION_CODES.LOLLIPOP)
     @ExperimentalGetImage
-    fun getBitmap(image: ImageProxy): Bitmap? {
+    fun getBitmap(image: ImageProxy, flipX: Boolean = false): Bitmap? {
         val frameMetadata = FrameMetadata.Builder()
             .setWidth(image.width)
             .setHeight(image.height)
@@ -69,7 +69,7 @@ object BitmapUtils {
         val nv21Buffer = yuv420ThreePlanesToNV21(
             image.image!!.planes, image.width, image.height
         )
-        return getBitmap(nv21Buffer, frameMetadata)
+        return getBitmap(nv21Buffer, frameMetadata,flipX)
     }
 
     /** Rotates a bitmap if it is converted from a bytebuffer.  */

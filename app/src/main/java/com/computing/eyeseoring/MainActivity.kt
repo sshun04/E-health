@@ -7,6 +7,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener2
 import android.hardware.SensorManager
+import android.opengl.Matrix
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -127,7 +128,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener2 {
                                 override fun onImageInput(image: ImageProxy) {
                                     Log.d(TAG, "Average luminosity:")
 
-                                    BitmapUtils.getBitmap(image)?.let { bitmap ->
+                                    BitmapUtils.getBitmap(image, true)?.let { bitmap ->
                                         val input = InputImage.fromBitmap(bitmap, 0)
                                         detectFaces(input)
                                     }
